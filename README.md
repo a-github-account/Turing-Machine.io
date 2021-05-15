@@ -55,7 +55,7 @@ However, where is the defining feature of this esolang, I/O?
 
 ## Input and Output
 
-Input is part of the replace instruction: it will replace the current cell with 0 or 1 depending on the bit, 2 if the current character has run out of bits, or -1 if input has ended. Initially, I was intending on the replace instruction to replace the current cell with its Unicode representation, but I realized that for a simple cat program, the programmer would have to hardcode 1114112 possible input values.
+Input is part of the replace instruction: it will replace the current cell with 0 or 1 depending on the bit, 2 if the current character has run out of bits, or -1 if input has ended. Initially, I was intending for the input instruction to replace the current cell with its Unicode representation, but I realized that for a simple cat program, the programmer would have to hardcode 1114112 possible input values.
 
 Clearly, this wouldn't suffice.
 
@@ -64,8 +64,23 @@ For example if the input was `abc`, the input buffer would be `1, 1, 0, 0, 0, 0,
 
 If the replace instruction is -1, it will replace the cell with the leftmost value of the input buffer and then remove that value from the input buffer. For example if the input buffer was `1, 1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 0, 0, 1, 0, 2, 1, 1, 0, 0, 0, 1, 1, 2, -1, -1, -1, -1, ...`, the current cell would be replaced with `1`, and the input buffer would be `1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 0, 0, 1, 0, 2, 1, 1, 0, 0, 0, 1, 1, 2, -1, -1, -1, -1, ...`
 
-Outputting also involves a buffer system like inputting; however, there is an option to directly output: Turing Machine.io outputs the Unicode equivalent of the symbol currently on the tape if the output instruction is `3`
+Outputting also involves a buffer system like inputting; however, there is an option to directly output: Turing Machine.io outputs the Unicode equivalent of the symbol currently on the tape if the output instruction is `3`. `1` adds the value of the cell to the end of the output buffer if the instruction is `1` and the cell's value is `0` or `1`, and `2` interprets the binary string as binary and prints its Unicode equivalent without a leading newline.
 
+## Halting
+
+Now, it would be pretty stupid to make every Turing machine, and consequently a Turing Machine.io, program to either run infinitely or terminate on an error. To prevent this there is an extra instruction that, after all the instructions are executed, determines whether the program should halt or not. If this instruction is `0`, the program won't halt; however, if this instruction is `1`, the program will halt.
+
+## Syntax
+
+```65 5 66 3 -1 6 0```
+This instruction set would mean "If the value of the cell is 65 and the program's state is 5, replace the cell with 66, convert the value of the cell (66) to Unicode ('B') and print it out, move 1 to the left of the cell, change the program's state to 6, and don't halt."
+
+So the general syntax would be:
+```<value of cell condition> <state condition> <replace instruction> <output instruction> <move instruction> <change state instruction> <halt instruction>```
+
+A Turing Machine.io program is just a collection of instruction sets. For examples, look at helloworld.tmi and cat.tmi, both files on this repository.
+
+If parts of this documentation were confusing, or you have any suggestions in general, don't hesistate to either contact me directly or raise an issue or pull request.
 
 
 ## To-do List:
