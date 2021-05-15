@@ -84,7 +84,7 @@ If parts of this documentation were confusing, or you have any suggestions in ge
 
 
 ## To-do List:
-- Finish documentation
+- ~~Finish documentation~~
 - Optimize/clean code
 - Change the design slightly?
 - Make parsing not bad
