@@ -1,6 +1,8 @@
 ## Turing Machine with I/O by MilkyWay90
 ## A better version of my previous esolang, Turing Machine But Way Worse
-## Started somewhere in August 2020, finished somewhere in November
+## Started in august 2020 or smth, hopefully finished by 10/2/2020
+## Haha it's the second week of November (11/9/2020) and it's still not completely done
+## Haha it's 11/16/2020 and it's actually almost done gg
 
 
 import sys # Library for reading
@@ -72,7 +74,7 @@ def execute(states, debug = False):
 					tape[pos], input_buffer = int((temp_val := bin(ord(temp_char)))[2]), temp_val[3:] + '2'
 					del temp_val
 				except TypeError: # If STDIN has ended and stdin.read(1) returns a 0-length string, ord() would throw a TypeError
-					tape[pos] = -1
+					tape[pos] = 3
 				del temp_char
 		else: # If the replace instruction >= 0
 			tape[pos] = replace # Replace this position with the replace instruction
