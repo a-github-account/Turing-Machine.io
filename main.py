@@ -140,7 +140,7 @@ def execute(states, debug = False):
 			
 		# Move instruction
 		move = int(instructions[2])
-		pos += move # Move the pointer
+		pos += move if -1 <= move <= 1 else 0 # Move the pointer
 		# Utilize the offset variable to prevent negative pos issue
 		if pos == -1:
 			pos = 0
@@ -216,46 +216,6 @@ def execute(states, debug = False):
 def parse(code):
 	# Convert text to a dictionary
 	states = dict(((line.split()[0], line.split()[1]), line.split()[2:]) for line in code.split("\n"))
-	
-	# Make sure that all instructions are numbers and that all instructions are valid
-	line_counter = 0
-	for line in code.split("\n"):
-		instruction_counter = 0
-		for instruction in line.split():
-			try:
-				int(instruction) # Attempt to make an integer version of the instruction
-			except ValueError:
-				# Throw an error
-				sys.exit(
-					"\033[31mError: Line {0}, instruction {1} is not a number.\033[0m"\
-					.format(line_counter, instruction_counter)
-				)
-
-			if instruction_counter == 3: # Check for print instruction validity
-				if instruction not in "0 1 2 3".split():
-					sys.exit(
-						"\033[31mError: Line {0}, instruction {1} is a print instruction but isn't 0 or 1.\033[0m"\
-						.format(line_counter, instruction_counter)
-					)
-					
-			
-			elif instruction_counter == 4: # Check for move instruction validity
-				if instruction not in "-1 0 1".split():
-					sys.exit(
-						"\033[31mError: Line {0}, instruction {1} is a move instruction but isn't -1, 0, or 1.\033[0m"\
-						.format(line_counter, instruction_counter)
-					)
-					
-			elif instruction_counter == 6: # Check for halt instruction validity
-				if instruction not in "0 1".split():
-					sys.exit(
-						"\033[31mError: Line {0}, instruction {1} is a move instruction but isn't 0, or 1.\033[0m"\
-						.format(line_counter, instruction_counter)
-					)
-				
-			instruction_counter += 1
-		line_counter += 1
-		
 	return states
 
 # Read a file's contents and return it
