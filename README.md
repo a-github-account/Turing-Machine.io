@@ -76,7 +76,7 @@ Now, it would be pretty stupid to make every Turing machine, and consequently a 
 This instruction set would mean "If the value of the cell is 65 and the program's state is 5, replace the cell with 66, convert the value of the cell (66) to Unicode ('B') and print it out, move 1 to the left of the cell, change the program's state to 6, and don't halt."
 
 So the general syntax would be:
-```<value of cell condition> <state condition> <replace instruction> <output instruction> <move instruction> <change state instruction> <halt instruction>```
+```<value of cell condition> <state condition> <replace instruction> <output instruction> <change state instruction> <move instruction> <halt instruction>```
 
 A Turing Machine.io program is just a collection of instruction sets. For examples, look at helloworld.tmi and cat.tmi, both files on this repository.
 
