@@ -64,7 +64,7 @@ For example if the input was `abc`, the input buffer would be `1, 1, 0, 0, 0, 0,
 
 If the replace instruction is -1, it will replace the cell with the leftmost value of the input buffer and then remove that value from the input buffer. For example if the input buffer was `1, 1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 0, 0, 1, 0, 2, 1, 1, 0, 0, 0, 1, 1, 2, -1, -1, -1, -1, ...`, the current cell would be replaced with `1`, and the input buffer would be `1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 0, 0, 1, 0, 2, 1, 1, 0, 0, 0, 1, 1, 2, -1, -1, -1, -1, ...`
 
-Outputting also involves a buffer system like inputting; however, there is an option to directly output: Turing Machine.io outputs the Unicode equivalent of the symbol currently on the tape if the output instruction is `3`. `1` adds the value of the cell to the end of the output buffer if the instruction is `1` and the cell's value is `0` or `1`, and `2` interprets the binary string as binary and prints its Unicode equivalent without a leading newline.
+Outputting also involves a buffer system like inputting; however, there is an option to directly output: Turing Machine.io outputs the Unicode equivalent of the symbol currently on the tape if the output instruction is `3`. `1` adds the value of the cell to the end of the output buffer if the instruction is `1` and the cell's value is `0` or `1`, and `2` interprets the output buffer as binary and prints its Unicode equivalent without a leading newline.
 
 ## Halting
 
