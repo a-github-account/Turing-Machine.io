@@ -51,8 +51,6 @@ def execute(states):
 				if output == 1:
 					if tape[pos] in [0, 1]:
 						output_buffer += str(tape[pos])
-					else:
-						pass # Might put an error here
 				elif output == 2:
 					sys.stdout.write(chr(int(output_buffer, 2)))
 					output_buffer = ""
@@ -64,7 +62,7 @@ def execute(states):
 			
 		# Move instruction
 		move = int(instructions[2])
-		pos += move if -1 <= move <= 1 else 0 # Move the pointer
+		pos += move # Move the pointer
 		# Utilize the offset variable to prevent negative pos issue
 		if pos == -1:
 			pos = 0
@@ -81,14 +79,125 @@ def execute(states):
 		halt = int(instructions[4])
 		if halt:
 			sys.exit(0)
-		
-
 
 # Parse the code and return a dictionary
 def parse(code):
 	# Convert text to a dictionary
-	states = dict(((line.split()[0], line.split()[1]), line.split()[2:]) for line in code.split("\n"))
+	states = dict(((line.split(" ")[0], line.split(" ")[1]), line.split(" ")[2:]) for line in code.split("\n"))
 	return states
+
+# Validate the code to make sure that it's valid (yeah pretty self-explanatory)
+def validate(code):
+	instruction_sets = [i.split(" ") for i in code.split("\n")] # List of instruction sets
+	conditionals = {} # Keep track of states and cells so that there are no duplicates
+	error = False # Keep track of whether there's an error or not
+	for line in range(len(instruction_sets)):
+		instruction_set = instruction_sets[line]
+		if len(instruction_set) == 0:
+			print(
+				"Validation Error: Empty line on line {}; did you leave a trailing newline?".format(
+					str(line + 1)
+				),
+				file = sys.stderr
+			)
+			error = True
+			continue
+		elif len(instruction_set) != 7:
+			print(
+				"Validation Error: Incorrect number of instructions in instruction set {0} on line {1}".format(
+					" ".join(instruction_set),
+					str(line + 1)
+				),
+				file = sys.stderr
+			)
+			error = True
+			continue
+		
+		# Check if the conditional value of the cell is a whole number
+		try:
+			assert int(instruction_set[0]) > -1
+		except:
+			print(
+				"Validation Error: Value of cell conditional, instruction 1 of instruction set {0} on line {1}, is not a whole number.".format(
+					" ".join(instruction_set),
+					str(line + 1)
+				),
+				file = sys.stderr
+			)
+			error = True
+		
+		# Check for no duplicates within conditionals and if there are no duplicates, add it to the list of conditionals
+		try:
+			line_other = conditionals[(instruction_set[0], instruction_set[1])]
+			print(
+				"Validation Error: Value of cell + state conditions, instructions 1 and 2, respectively, are duplicated in instruction sets {1} and {3}, on lines {0} and {2}, respectively.".format(
+					str(line_other + 1),
+					" ".join(instruction_sets[line_other]),
+					str(line + 1),
+					" ".join(instruction_sets[line])
+				),
+				file = sys.stderr
+			)
+			error = True
+		except KeyError:
+			conditionals[(instruction_set[0], instruction_set[1])] = line
+		
+		# Check for replace instruction validity (whole numbers and -1)
+		try:
+			assert int(instruction_set[2]) > -2
+		except:
+			print(
+				"Validation Error: Replace instruction, instruction 3 of instruction set {0} on line {1}, is not -1 or a whole number.".format(
+					" ".join(instruction_set),
+					str(line + 1)
+				),
+				file = sys.stderr
+			)
+			error = True
+		
+		# Check for output instruction validity (numbers 0 - 3)
+		try:
+			assert -1 < int(instruction_set[3]) < 4
+		except:
+			print(
+				"Validation Error: Output instruction, instruction 4 of instruction set {0} on line {1}, is not a whole number inclusively between 0 and 3.".format(
+					" ".join(instruction_set),
+					str(line + 1)
+				),
+				file = sys.stderr
+			)
+			error = True
+		
+		# Check for move instruction validity (-1, 0, or 1)
+		try:
+			assert -2 < int(instruction_set[4]) < 2
+		except:
+			print(
+				"Validation Error: Move instruction, instruction 5 of instruction set {0} on line {1}, is not -1, 0, or 1.".format(
+					" ".join(instruction_set),
+					str(line + 1)
+				),
+				file = sys.stderr
+			)
+			error = True
+		
+		# Check for halt instruction validity (0 or 1)
+		try:
+			assert int(instruction_set[4]) in (0, 1)
+		except:
+			print(
+				"Validation Error: Halt instruction, instruction 6 of instruction set {0} on line {1}, is not 0 or 1.".format(
+					" ".join(instruction_set),
+					str(line + 1)
+				),
+				file = sys.stderr
+			)
+			error = True
+	
+	if error == True:
+		sys.exit("Program terminated due to validation error(s).")
+		
+		
 
 # Read a file's contents and return it
 def readfile(filename):
@@ -105,9 +214,9 @@ def main():
 	args = sys.argv
 	
 	contents = readfile(args[1]) # Get file contents
+	validate(contents)
 	states = parse(contents) # Get the converted form of the file
 	execute(states) # Execute the program
-	
 
 if __name__ == "__main__": # Something unnecessary that's considered "good coding practice"
 	main()
