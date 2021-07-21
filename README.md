@@ -85,10 +85,7 @@ If parts of this documentation were confusing, or you have any suggestions in ge
 
 ## To-do List:
 - ~~Finish documentation~~
-- Optimize/clean code
-- Change the design slightly?
-- Make parsing not bad
+- ~~Optimize/clean code~~
+- ~~Make parsing not bad~~
 - Give an error when the user specifies an invalid state change
 - Make debugging not bad
-- ???
-- Profit
