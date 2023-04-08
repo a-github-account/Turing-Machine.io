@@ -1,11 +1,10 @@
-## Turing Machine with I/O by MilkyWay90
+## Turing Machine with I/O by MilkyWay90/a-github-account
 ## A better version of my previous esolang, Turing Machine But Way Worse
-## Started in august 2020 or smth, hopefully finished by 10/2/2020
-## Haha it's the second week of November (11/9/2020) and it's still not completely done
-## Haha it's 11/16/2020 and it's actually almost done gg
+## Started progress on August 2020
+## Finished somewhere on December 2020-January 2021
+## First public release on May 2021
 
-
-import sys # Library for reading
+import sys # Library for reading cmd args
 import ctypes # Library that is used for enabling ANSI
 
 
@@ -207,8 +206,7 @@ def readfile(filename):
 	return contents
 	
 def main():
-	# Two lines of random code I got from Stack Overflow (https://stackoverflow.com/a/36760881 because CC BY-SA)
-	# I don't know what they do but they make ANSI magically work
+	# Two lines of code that enables ANSI in Windows cmd that I got from Stack Overflow (https://stackoverflow.com/a/36760881 because CC BY-SA)
 	kernel32 = ctypes.windll.kernel32
 	kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
 	args = sys.argv
@@ -218,5 +216,5 @@ def main():
 	states = parse(contents) # Get the converted form of the file
 	execute(states) # Execute the program
 
-if __name__ == "__main__": # Something unnecessary that's considered "good coding practice"
+if __name__ == "__main__":
 	main()
