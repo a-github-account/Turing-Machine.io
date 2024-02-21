@@ -1,7 +1,7 @@
 **NOTE: This is unfinished but please report any bugs if you are able to find any.**
 
 # Turing-Machine.io
-The pheonix that rose from the ashes of Turing Machine But Way Worse with a terrible pun on .io games.
+The phoenix that rose from the ashes of Turing Machine But Way Worse with a terrible pun on .io games.
 
 ## Memory Type
 A Turing Machine, and consequently Turing Machine.io, relies on a tape to store information, so it is a tape-based esolang.
